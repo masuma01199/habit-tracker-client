@@ -14,7 +14,6 @@ import PublicHabits from './pages/PublicHabits';
 import HabitDetails from './pages/HabitDetails';
 import NotFound from './pages/NotFound';
 import { initialHabits } from './services/mockData';
-import { main } from 'framer-motion/client';
 
 // --- Contexts ---
 
@@ -58,7 +57,7 @@ const ProtectedRoute = ({ children }) => {
 
 // --- Main App Component ---
 
-const Main = () => {
+const main = () => {
   const [auth, setAuth] = useState({ user: null, loading: true });
   const [habits, setHabits] = useState([]);
 
@@ -137,8 +136,7 @@ const Main = () => {
           if (historySet.has(dateStr)) {
             streak++;
             checkDate.setDate(checkDate.getDate() - 1);
-          } 
-          else {
+          } else {
             break;
           }
         }
@@ -191,4 +189,5 @@ const Main = () => {
     </AuthContext.Provider>
   );
 };
+
 export default main;
