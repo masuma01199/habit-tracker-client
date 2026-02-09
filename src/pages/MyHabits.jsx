@@ -1,32 +1,21 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth, useHabits } from '../App';
-import { Edit2, Trash2, CheckCircle, Calendar, Flame, ChevronRight, BarChart3 } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import axios from 'axios';
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthProvider";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+
 const MyHabits = () => {
-  const { auth } = useAuth();
-  const { habits, deleteHabit,setHabits } = useHabits();
-  const [showStats, setShowStats] = useState(false);
-
-  // Filter habits belonging to the logged-in user
-  const myHabits = habits.filter(h => h.creatorEmail === auth.user?.email);
-
-  // Mock data for the analytics chart
-  const statsData = [
-    { name: 'Mon', count: 12 },
-    { name: 'Tue', count: 15 },
-    { name: 'Wed', count: 18 },
-    { name: 'Thu', count: 14 },
-    { name: 'Fri', count: 22 },
-    { name: 'Sat', count: 25 },
-    { name: 'Sun', count: 20 },
-  ];
+  const { user } = useContext(AuthContext);
+  const [habits, setHabits] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this habit?")) {
-      deleteHabit(id);
-    }
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this habit?"
+    );
+
+    if (!confirmDelete) return;
+
     axios
       .delete(`http://localhost:5000/habits/${id}`)
       .then(() => {
@@ -37,7 +26,8 @@ const MyHabits = () => {
       .catch(() => toast.error("Failed to delete habit"));
   };
 
-   const markComplete = (id) => {
+  // ✅ MOVE THIS FUNCTION UP
+  const handleComplete = (id) => {
     axios
       .patch(`http://localhost:5000/habits/complete/${id}`)
       .then(res => {
@@ -53,12 +43,12 @@ const MyHabits = () => {
         const updatedHabits = habits.map(habit =>
           habit._id === id
             ? {
-                ...habit,
-                completionHistory: [
-                  ...(habit.completionHistory || []),
-                  today,
-                ],
-              }
+              ...habit,
+              completionHistory: [
+                ...(habit.completionHistory || []),
+                today,
+              ],
+            }
             : habit
         );
 
@@ -82,136 +72,64 @@ const MyHabits = () => {
   if (loading) return <p>Loading your habits...</p>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Dashboard Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">My Habit Dashboard</h1>
-          <p className="text-slate-500">Track and manage your personal progress.</p>
-        </div>
-        <div className="flex gap-3">
-          <button 
-            onClick={() => setShowStats(!showStats)}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all ${
-              showStats 
-                ? 'bg-indigo-600 text-white' 
-                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
-            }`}
-          >
-            <BarChart3 size={20} /> Analytics
-          </button>
-          <Link 
-            to="/add-habit" 
-            className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100 flex items-center gap-2"
-          >
-            <CheckCircle size={20} /> Add Habit
-          </Link>
-        </div>
-      </div>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h2 className="text-3xl font-bold mb-2">My Habits</h2>
+      <p className="text-gray-600 mb-6">
+        Total habits: {habits.length}
+      </p>
 
-      {/* Analytics Section */}
-      {showStats && (
-        <div className="mb-10 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-            <Flame className="text-orange-500" /> Weekly Streak Growth
-          </h3>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={statsData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                <YAxis axisLine={false} tickLine={false} />
-                <Tooltip 
-                  contentStyle={{ 
-                    borderRadius: '12px', 
-                    border: 'none', 
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)' 
-                  }} 
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="count" 
-                  stroke="#4f46e5" 
-                  strokeWidth={3} 
-                  dot={{ r: 4, fill: '#4f46e5' }} 
-                  activeDot={{ r: 6 }} 
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      )}
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <table className="min-w-full border-collapse">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="px-6 py-3 text-left">Title</th>
+              <th className="px-6 py-3 text-left">Category</th>
+              <th className="px-6 py-3 text-center">Streak</th>
+              <th className="px-6 py-3 text-center">Created</th>
+              <th className="px-6 py-3 text-center">Actions</th>
+            </tr>
+          </thead>
 
-      {/* Habits Table / Empty State */}
-      {myHabits.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300">
-          <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300">
-            <Calendar size={40} />
-          </div>
-          <h3 className="text-xl font-bold text-slate-900">No habits yet</h3>
-          <p className="text-slate-500 mb-6">Start your journey by adding your first daily habit.</p>
-          <Link to="/add-habit" className="text-indigo-600 font-bold hover:underline">Add First Habit</Link>
-        </div>
-      ) : (
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden overflow-x-auto">
-          <table className="min-w-full divide-y divide-slate-100">
-            <thead className="bg-slate-50/50">
-              <tr>
-                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Title</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Category</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Streak</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Created</th>
-                <th className="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">Actions</th>
+          <tbody>
+            {habits.map(habit => (
+              <tr key={habit._id}>
+                <td className="px-6 py-4">{habit.title}</td>
+                <td className="px-6 py-4">{habit.category}</td>
+
+                <td className="px-6 py-4 text-center font-semibold">
+                  {habit.completionHistory?.length || 0}
+                </td>
+
+                <td className="px-6 py-4 text-center text-sm text-gray-500">
+                  {new Date(habit.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 flex gap-2 justify-center">
+                  <Link to={`/update-habit/${habit._id}`}>
+                    <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">
+                      Update
+                    </button>
+                  </Link>
+
+                  <button
+                    onClick={() => handleDelete(habit._id)}
+                    className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+
+                  <button
+                    onClick={() => handleComplete(habit._id)}
+                    className="px-3 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600"
+                  >
+                    Complete
+                  </button>
+                </td>
+
               </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {myHabits.map((habit) => (
-                <tr key={habit.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-6 py-4">
-                    <div className="font-bold text-slate-900">{habit.title}</div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold uppercase">
-                      {habit.category}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-1.5 font-bold text-orange-600">
-                      <Flame size={16} fill="currentColor" /> {habit.streak}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-500">
-                    {new Date(habit.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4 text-right whitespace-nowrap">
-                    <div className="flex items-center justify-end gap-2">
-                      <button 
-                        onClick={() => markComplete(habit.id)}
-                        className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
-                        title="Mark Complete Today"
-                      >
-                        <CheckCircle size={20} />
-                      </button>
-                      <Link 
-                        to={`/habit/${habit.id}`}
-                        className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                      >
-                        <ChevronRight size={20} />
-                      </Link>
-                      <button 
-                        onClick={() => handleDelete(habit.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                      >
-                        <Trash2 size={20} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
