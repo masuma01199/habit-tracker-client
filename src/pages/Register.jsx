@@ -81,7 +81,7 @@ const Register = () => {
 
         <div className="mt-8">
             <button onClick={handleGoogleRegister} className="w-full flex items-center justify-center gap-3 border border-gray-200 py-3.5 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition-all">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/0/google.svg" className="w-5 h-5" alt="Google" />
+                
                 Continue with Google
             </button>
         </div>
