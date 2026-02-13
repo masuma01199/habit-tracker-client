@@ -4,7 +4,7 @@ A modern full-stack habit tracking web application that helps users build consis
 
 Built with a clean SaaS-style UI and smooth user experience.
 
-- [Live Site]() 
+- [Live Site](https://habit-client-cyan.vercel.app/) 
 - [Client Repo](https://github.com/masuma01199/habit-tracker-client.git)
 - [Server Repo](https://github.com/masuma01199/habit-tracker-server.git) 
 
