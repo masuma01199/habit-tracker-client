@@ -18,6 +18,7 @@ const AddHabit = () => {
       title,
       category,
       isPublic,
+      isFeatured: false,
       email: user.email,
       createdAt: new Date(),
       completionHistory: []

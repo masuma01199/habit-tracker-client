@@ -7,11 +7,12 @@ const FeaturedHabits = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/habits/featured")
+            .get("http://localhost:5000/habits/public")
             .then(res => {
-                setHabits(res.data);
+                setHabits(res.data.slice(0,3));
                 setLoading(false);
-            });
+            })
+            .catch(()=> setLoading(false));
     }, []);
 
     if (loading) return <p>Loading habits...</p>;
