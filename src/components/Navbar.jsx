@@ -4,22 +4,13 @@ import { AuthContext } from "../context/AuthProvider";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-<<<<<<< HEAD
   const [open, setOpen] = useState(false); // For Profile Dropdown
   const [mobileOpen, setMobileOpen] = useState(false); // For Mobile Menu
-=======
-  const [open, setOpen] = useState(false); 
-  const [mobileOpen, setMobileOpen] = useState(false); 
->>>>>>> 507be70afcdb510cdd9a268bc01c0acaac61fa7c
 
   const activeClass = "text-indigo-600 font-bold border-b-2 border-indigo-600 pb-1";
   const inactiveClass = "text-gray-600 hover:text-indigo-600 font-medium transition-all";
   
-<<<<<<< HEAD
   // Mobile specific class
-=======
-  
->>>>>>> 507be70afcdb510cdd9a268bc01c0acaac61fa7c
   const mobileLinkClass = ({ isActive }) => 
     `block px-4 py-2 text-base font-medium ${isActive ? "text-indigo-600 bg-indigo-50" : "text-gray-600 hover:bg-gray-50"}`;
 
@@ -27,11 +18,7 @@ const Navbar = () => {
     <nav className="bg-white border-b sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
         
-<<<<<<< HEAD
         {/* Mobile Menu Button (Visible only on small screens) */}
-=======
-    
->>>>>>> 507be70afcdb510cdd9a268bc01c0acaac61fa7c
         <div className="md:hidden flex items-center">
           <button 
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -101,11 +88,7 @@ const Navbar = () => {
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* Mobile Menu Container */}
-=======
-     
->>>>>>> 507be70afcdb510cdd9a268bc01c0acaac61fa7c
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 p-4 space-y-2 animate-in slide-in-from-top duration-300">
           <NavLink to="/" onClick={() => setMobileOpen(false)} className={mobileLinkClass}>Home</NavLink>
