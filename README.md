@@ -1,16 +1,115 @@
-# React + Vite
+# 🌿 HabitQuest
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern full-stack habit tracking web application that helps users build consistency, track streaks, and explore public habits shared by the community.
 
-Currently, two official plugins are available:
+Built with a clean SaaS-style UI and smooth user experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Live Site](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) 
+- [Client Repo](https://babeljs.io/)
+- [Server Repo](https://oxc.rs) 
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Authentication & Security: 
+*Email & password login
 
-## Expanding the ESLint configuration
+*Google authentication
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+*Protected routes
+
+*User profile dropdown
+
+### Personalized Dashboard:
+ A private "My Habits" area where users can track their own daily routines.
+
+### Streaks & Milestones:
+ Visual fire icons and counters to celebrate consecutive days of habit completion.
+
+### Community Sharing: 
+Option to set habits as "Public" to inspire others or keep them "Private" for personal growth.
+
+### Dynamic UI:
+ Fully responsive design with a high-end SaaS aesthetic (Extra-rounded cards, Indigo branding).
+
+### Real-time Feedback: 
+Integrated toast notifications for every action—from habit creation to password resets.
+
+## 🛠️ Tech Stack
+
+|Frontend    |	Backend	Database|  Auth|
+| :--- | :--- | :--- |
+|React.js    |	Node.js         |	Firebase Auth|
+|Tailwind CSS|	Express.js      |   Vercel Deployment|	
+|Axios	     | CORS             |	MongoDB |
+|React Router|
+
+## 🚀 Getting Started
+Follow these steps to set up the project locally.
+
+### Install Dependencies
+#### 📦 For the Client:
+cd client
+npm install
+
+#### 📦 For the Server:
+cd ../server
+npm install
+
+### Environment Variables
+
+Create a .env file in both the client and server folders.
+
+#### 🔐 Client (/client/.env)
+VITE_API_URL=http://localhost:5000
+VITE_FIREBASE_API_KEY=your_key
+VITE_FIREBASE_AUTH_DOMAIN=your_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+
+#### 🗄️ Server (/server/.env)
+DB_USER=your_db_user
+DB_PASS=your_db_password
+PORT=5000
+
+#### Run the Application
+##### ▶ Start Server
+cd server
+npm start
+
+##### ▶ Start Client
+cd client
+npm run dev
+
+
+The application should now be running at:
+
+http://localhost:5173
+
+
+### 🛣️ Roadmap
+
+* Firebase Authentication (Login / Signup / Forgot Password)
+
+* CRUD Operations for Habits
+
+* Public / Private Visibility Toggle
+
+* Implement a Global Leaderboard
+
+* Add Habit Reminders via Email Notifications
+
+* Dark Mode Support
+
+### 🧠 Notes
+
+* Make sure MongoDB is running locally (or use MongoDB Atlas).
+
+* Ensure CORS is enabled on the backend.
+
+* Do not commit your .env files.
+
+
+---
+
+
+
+
