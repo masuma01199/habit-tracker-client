@@ -25,7 +25,7 @@ const AddHabit = () => {
     };
 
     axios
-      .post("http://localhost:5000/habits", habit)
+      .post(`${import.meta.env.VITE_API_URL}/habits`, habit)
       .then(() => {
         toast.success("New quest started!");
         navigate("/my-habits");

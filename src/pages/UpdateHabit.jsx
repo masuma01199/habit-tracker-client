@@ -12,7 +12,7 @@ const UpdateHabit = () => {
   const [visibility, setVisibility] = useState("public");
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/habits/${id}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/habits/${id}`)
       .then(res => {
         setTitle(res.data.title);
         setCategory(res.data.category);
@@ -24,7 +24,7 @@ const UpdateHabit = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
-      .patch(`http://localhost:5000/habits/${id}`, {
+      .patch(`${import.meta.env.VITE_API_URL}/habits/${id}`, {
         title,
         category,
         visibility,

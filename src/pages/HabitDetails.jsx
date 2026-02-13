@@ -22,7 +22,7 @@ const HabitDetails = () => {
   // Logic to Mark as Completed
   const handleComplete = () => {
     axios
-      .patch(`http://localhost:5000/habits/complete/${id}`)
+      .patch(`${import.meta.env.VITE_API_URL}/habits/complete/${id}`)
       .then(res => {
         if (res.data.message === "Already completed today") {
           toast("Already completed today", { icon: 'ℹ️' });

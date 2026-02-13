@@ -11,13 +11,13 @@ Built with a clean SaaS-style UI and smooth user experience.
 ## ✨ Features
 
 ### Authentication & Security: 
-*Email & password login
+* Email & password login
 
-*Google authentication
+* Google authentication
 
-*Protected routes
+* Protected routes
 
-*User profile dropdown
+* User profile dropdown
 
 ### Personalized Dashboard:
  A private "My Habits" area where users can track their own daily routines.

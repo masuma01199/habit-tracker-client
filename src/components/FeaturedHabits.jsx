@@ -7,7 +7,7 @@ const FeaturedHabits = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/habits/public")
+            .get(`${import.meta.env.VITE_API_URL}/habits/public`)
             .then(res => {
                 setHabits(res.data.slice(0,3));
                 setLoading(false);

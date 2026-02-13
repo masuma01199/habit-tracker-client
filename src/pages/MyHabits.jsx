@@ -17,7 +17,7 @@ const MyHabits = () => {
     if (!confirmDelete) return;
 
     axios
-      .delete(`http://localhost:5000/habits/${id}`)
+      .delete(`${import.meta.env.VITE_API_URL}/habits/${id}`)
       .then(() => {
         toast.success("Habit deleted successfully");
         const remaining = habits.filter(habit => habit._id !== id);
@@ -29,7 +29,7 @@ const MyHabits = () => {
   // ✅ MOVE THIS FUNCTION UP
   const handleComplete = (id) => {
     axios
-      .patch(`http://localhost:5000/habits/complete/${id}`)
+      .patch(`${import.meta.env.VITE_API_URL}/habits/complete/${id}`)
       .then(res => {
         if (res.data.message === "Already completed today") {
           toast("Already completed today");
@@ -60,7 +60,7 @@ const MyHabits = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/habits/user/${user.email}`)
+        .get(`${import.meta.env.VITE_API_URL}/habits/user/${user.email}`)
         .then(res => {
           setHabits(res.data);
           setLoading(false);
