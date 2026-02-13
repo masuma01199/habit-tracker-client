@@ -12,6 +12,8 @@ import HabitDetails from "./pages/HabitDetails";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import UpdateHabit from "./pages/UpdateHabit";
+import ForgotPassword from "./pages/ForgotPassword";
+
 
 function App() {
   return (
@@ -48,7 +50,7 @@ function App() {
         />
 
         <Route path="/habits" element={<PublicHabits />} />
-
+         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
           path="/habit/:id"
           element={

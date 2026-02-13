@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthProvider"; // Import your AuthContext
+import { AuthContext } from "../context/AuthProvider"; 
 import "swiper/css";
 
 const Banner = () => {
-  const { user } = useContext(AuthContext); // Get the user status
+  const { user } = useContext(AuthContext); 
 
   const slides = [
     { 

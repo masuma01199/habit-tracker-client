@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 const Register = () => {
   const { createUser, googleLogin, updateProfile } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -70,8 +71,23 @@ const Register = () => {
           </div>
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-1.5">Password</label>
-            <input name="password" type="password" placeholder="••••••••" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
-            <p className="text-[10px] text-gray-400 mt-1 px-1">Min 6 chars, at least one uppercase and one lowercase letter.</p>
+            <div className="relative">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                required
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+              >
+                {showPassword ? "👁️" : "🙈"} 
+              </button>
+            </div>
+            <p className="text-[10px] text-gray-400 mt-1 px-1">Min 6 chars, uppercase & lowercase.</p>
           </div>
 
           <button type="submit" className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 mt-4">
@@ -80,10 +96,10 @@ const Register = () => {
         </form>
 
         <div className="mt-8">
-            <button onClick={handleGoogleRegister} className="w-full flex items-center justify-center gap-3 border border-gray-200 py-3.5 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition-all">
-                
-                Continue with Google
-            </button>
+          <button onClick={handleGoogleRegister} className="w-full flex items-center justify-center gap-3 border border-gray-200 py-3.5 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition-all">
+
+            Continue with Google
+          </button>
         </div>
 
         <p className="mt-8 text-gray-500 font-medium">
