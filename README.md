@@ -4,9 +4,9 @@ A modern full-stack habit tracking web application that helps users build consis
 
 Built with a clean SaaS-style UI and smooth user experience.
 
-- [Live Site](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) 
-- [Client Repo](https://babeljs.io/)
-- [Server Repo](https://oxc.rs) 
+- [Live Site]() 
+- [Client Repo](https://github.com/masuma01199/habit-tracker-client.git)
+- [Server Repo](https://github.com/masuma01199/habit-tracker-server.git) 
 
 ## ✨ Features
 
